@@ -1,22 +1,26 @@
 <?php 
 namespace src;
 require_once __DIR__ . "/../repositories/PostRepository.php";
-require_once __DIR__ . "/../handlers/formHandler.php";
+require_once __DIR__ . "/../repositories/CategoryRepository.php";
+require_once __DIR__ . "/../handlers/formValidator.php";
 use repositories\PostRepository;
-use handlers\formHandler;
+use repositories\CategoryRepository;
+use handlers\formValidator;
 
 class PostController{
     private $postRepository;
-    private $formHandler;
+    private $categoryRepository;
+    private $formValidator;
 
     /**
      * Конструктор класса PostController.
      * 
-     * Инициализирует экземпляры классов PostRepository и formHandler.
+     * Инициализирует экземпляры классов PostRepository и formValidator.
      */
     public function __construct(){
         $this->postRepository = new PostRepository();
-        $this->formHandler = new formHandler();
+        $this->categoryRepository = new CategoryRepository();
+        $this->formValidator = new formValidator();
     }
 
     /**
@@ -29,7 +33,7 @@ class PostController{
     }
 
     public function getCategoryNameById(int $cat_id) : string{
-        $category = $this->postRepository->getCategoryById($cat_id);
+        $category = $this->categoryRepository->getCategoryById($cat_id);
         return $category['cat_name'];
     }
 
@@ -42,20 +46,23 @@ class PostController{
      * 
      * @return bool true, если пост успешно создан, иначе false.
      */
-    public function createPost(int $cat_id, string $title, string $content){
-        if(!$this->formHandler->requiredField($cat_id) || !$this->formHandler->requiredField($title) || !$this->formHandler->requiredField($content))
+    public function createPost(){
+        $cat_id = $_POST['cat_id'];
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        if(!$this->formValidator->requiredField($cat_id) || !$this->formValidator->requiredField($title) || !$this->formValidator->requiredField($content))
         {
-            echo "All fields are required.";
-            return false;
+            return "All fields are required.";
         }
-        if(!$this->formHandler->validateLength($title, 5, 100) || !$this->formHandler->validateLength($content, 10, 500))
+        if(!$this->formValidator->validateLength($title, 5, 100) || !$this->formValidator->validateLength($content, 10, 500))
         {
-            echo "Title must be between 5 and 100 characters and content must be between 10 and 500 characters.";
-            return false;
+            
+            return "Title must be between 5 and 100 characters and content must be between 10 and 500 characters.";
         }
 
         $created = $this->postRepository->createPost($cat_id, $title, $content);
-        return $created ? "Post is succeflkm added" : "Post is not added, pls try again";
+        
+        return $created ? " " : "Post is not added, pls try again";
     }
 }
 

@@ -26,8 +26,8 @@
             $query = "SELECT * FROM posts";
             $result = mysqli_query($this->connection, $query);
             $posts = [];
-            while ($row = mysqli_fetch_assoc($result)) {
-            $posts[] = $row;
+            foreach($result as $post){
+                $posts[] = $post;
             }
             return $posts;
         }
@@ -52,13 +52,15 @@
             $statement->bind_param("isss", $cat_id, $title, $content, $created_at);
             return $statement->execute();
     }
-        public function getCategoryById(int $cat_id) : array{
-            $query = "SELECT * FROM categories WHERE cat_id = ?";
+
+        public function getPostById($postId){
+            $query = "SELECT * FROM posts WHERE id = ?";
             $statement = $this->connection->prepare($query);
-            $statement->bind_param("i", $cat_id);
+            $statement->bind_param("i", $postId);
             $statement->execute();
             $result = $statement->get_result();
             return $result->fetch_assoc();
         }
+
 }
 ?>

@@ -1,7 +1,7 @@
 <?php 
     namespace handlers;
 
-    class formHandler
+    class formValidator
     {
         public function requiredField($data)
         {
@@ -12,5 +12,6 @@
         {
             return strlen($data) >= $minLength && strlen($data) <= $maxLength;
         }
+
     }
 ?>

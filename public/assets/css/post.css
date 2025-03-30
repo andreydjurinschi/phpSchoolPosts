@@ -22,9 +22,12 @@ h1, h2 {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px;
+    max-width: 300px;
+    overflow-wrap: break-word; /* Альтернативный способ */
+    white-space: normal; /* Разрешаем перенос строк */
     transition: transform 0.2s;
 }
+
 .post-card:hover {
     transform: scale(1.05);
 }

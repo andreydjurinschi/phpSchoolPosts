@@ -6,7 +6,6 @@
         $db = new dbConnector();
         $postController = new PostController();
         $connection = $db->getConnection();
-
         $posts = $postController->getAllPosts();
 
 ?>
@@ -36,6 +35,7 @@
         
         <div style="text-align: center; margin-top: 20px;">
             <a class="btn-create" href="/../lab04/public/post/create.php">Create new post</a>
+            <br>
             <br>
             <a class="btn-go-back" href="/../lab04/public">Back to principal page</a>
         </div>

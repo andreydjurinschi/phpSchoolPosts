@@ -22,7 +22,9 @@
                 //echo "Successfully connected to the database!";
                 return $this->connection;
             }catch (Exception $e) {
-                echo "Connection failed: " . $e->getMessage();
+                $this->connection = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+                dbConnector::getConnection();
+                // echo "Connection failed: " . $e->getMessage();
             }
         }
         

@@ -1,5 +1,7 @@
 <?php 
 namespace src;
+require_once __DIR__ . "/../repositories/PostRepository.php";
+require_once __DIR__ . "/../handlers/formHandler.php";
 use repositories\PostRepository;
 use handlers\formHandler;
 
@@ -24,6 +26,11 @@ class PostController{
      */
     public function getAllPosts(){
         return $this->postRepository->getAllPosts();
+    }
+
+    public function getCategoryNameById(int $cat_id) : string{
+        $category = $this->postRepository->getCategoryById($cat_id);
+        return $category['cat_name'];
     }
 
     /**

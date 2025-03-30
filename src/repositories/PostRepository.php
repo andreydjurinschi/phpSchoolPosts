@@ -52,5 +52,13 @@
             $statement->bind_param("isss", $cat_id, $title, $content, $created_at);
             return $statement->execute();
     }
+        public function getCategoryById(int $cat_id) : array{
+            $query = "SELECT * FROM categories WHERE cat_id = ?";
+            $statement = $this->connection->prepare($query);
+            $statement->bind_param("i", $cat_id);
+            $statement->execute();
+            $result = $statement->get_result();
+            return $result->fetch_assoc();
+        }
 }
 ?>

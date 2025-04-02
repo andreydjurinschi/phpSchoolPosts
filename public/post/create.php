@@ -1,20 +1,5 @@
 <?php 
-    require_once __DIR__ . "/../../database/dbConnector.php";
-    require_once __DIR__ . "/../../src/controllers/PostController.php";
-    require_once __DIR__ . "/../../src/controllers/CategoryController.php";
-    use database\dbConnector;
-    use src\PostController; 
-    use src\CategoryController;
-    $db = new dbConnector();
-    $postController = new PostController();
-    $categoryController = new CategoryController();
-    $connection = $db->getConnection();
-    $count = count($postController->getAllPosts());
-    $categories = $categoryController->getAllCategories();
-    $message = '';
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $message = $postController->createPost();
-    }
+    require_once __DIR__ . "/../../src/handlers/postHandler.php";
 ?>
 
 
@@ -33,6 +18,7 @@
     </div>
     <div>
         <form method="POST" style="display: flex; flex-direction: column; max-width: 400px; gap: 10px; width: 100%;">
+            <input type="hidden" name="action" value="createPost">  
             <input type="text" name="title" placeholder="Title" required style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
             <textarea name="content" rows="10" placeholder="Content" required style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; resize: vertical;"></textarea>
             <select name="cat_id" id="">

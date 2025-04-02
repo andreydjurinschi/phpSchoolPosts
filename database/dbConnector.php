@@ -1,31 +1,29 @@
-<?php 
+<?php
 
-    namespace database;
-    require_once  'config/databaseConfig.php';
-    use mysqli;
-    use Exception;
-    /**
-     * Класс dbConnector предназначен для подключения к базе данных MySQL с использованием расширения MySQLi.
-     * Он инкапсулирует логику подключения и предоставляет метод для получения соединения.
-     */
-    class dbConnector
-    {
-        var $connection;
+namespace database;
+require_once __DIR__ . '/config/databaseConfig.php';
+use mysqli;
 
-        public function __construct()
-        {
-            $this->connection = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-        }
 
-        public function getConnection(){
-            try{
-                //echo "Successfully connected to the database!";
-                return $this->connection;
-            }catch (Exception $e) {
-                $this->connection = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-                dbConnector::getConnection();
-                // echo "Connection failed: " . $e->getMessage();
-            }
-        }
-        
+/**
+ * Класс dbConnector предназначен для подключения к базе данных MySQL с использованием MySQLi.
+ */
+class dbConnector {
+    private $connection;
+
+    public function __construct() {
+        $this->connect();
     }
+
+    private function connect() {
+        $this->connection = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+
+        if ($this->connection->connect_error) {
+            die("Ошибка подключения: " . $this->connection->connect_error);
+        }
+    }
+
+    public function getConnection() {
+        return $this->connection;
+    }
+}

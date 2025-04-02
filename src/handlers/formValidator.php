@@ -13,5 +13,9 @@
             return strlen($data) >= $minLength && strlen($data) <= $maxLength;
         }
 
+        public function alertJS(){
+
+        }
+
     }
 ?>

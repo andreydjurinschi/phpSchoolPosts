@@ -1,5 +1,7 @@
 <?php 
     namespace repositories;
+
+    require_once __DIR__ . '/../../database/dbConnector.php';
     use database\dbConnector;
     use DateTime;
 
@@ -34,8 +36,6 @@
 
 
         /**
-         * Создает новый пост в базе данных.
-         * 
          * Метод выполняет SQL-запрос для вставки нового поста в таблицу "posts".
          * 
          * @param int $cat_id Идентификатор категории поста.
@@ -53,7 +53,14 @@
             return $statement->execute();
     }
 
-        public function getPostById($postId){
+    /**
+     * Получает пост по переданному Id
+     *
+     * @param $postId
+     *
+     * @return array
+     */
+        public function getPostById($postId) {
             $query = "SELECT * FROM posts WHERE id = ?";
             $statement = $this->connection->prepare($query);
             $statement->bind_param("i", $postId);

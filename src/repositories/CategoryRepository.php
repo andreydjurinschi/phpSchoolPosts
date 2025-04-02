@@ -6,6 +6,7 @@
 
     class CategoryRepository{
 
+
         private $connection;
         private $postRepository;
         
@@ -14,6 +15,7 @@
             $db = new dbConnector();
             $this->connection = $db->getConnection();
         }
+
 
         public function addCategoryToPost($postId, $catId){
             $post = $this->postRepository->getPostById($postId);

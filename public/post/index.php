@@ -1,13 +1,8 @@
 <?php  
-        require_once __DIR__ . "/../../database/dbConnector.php";
-        require_once __DIR__ . "/../../src/controllers/PostController.php";
-        use database\dbConnector;
-        use src\PostController; 
-        $db = new dbConnector();
-        $postController = new PostController();
-        $connection = $db->getConnection();
-        $posts = $postController->getAllPosts();
-
+    require_once __DIR__ . "/../../src/controllers/PostController.php";
+    use src\PostController;
+    $postController = new PostController();
+    $posts = $postController->getPosts();
 ?>
 
 <!DOCTYPE html>
@@ -23,16 +18,16 @@
         <h2>Discover the latest updates and stories from our website</h2>
 
         <div class="post-container">
-        <?php foreach($posts as $post) { ?> 
+        <?php foreach($posts as $post) { ?>
         <div class="post-card">
                 <h2> <?= $post['title'] ?></h2>
                 <p> <strong>Content: </strong><?= $post['content'] ?></p>
                 <p><strong>Date:</strong> <?= $post['created_at'] ?></p>
-                <p><strong>Category:</strong> <?php $name = $postController->getCategoryNameById($post['cat_id']); echo $name?></p>
+                <!--<p><strong>Category:</strong> <?php /*$name = $postController->getCategoryNameById($post['cat_id']); echo $name*/?></p>-->
         </div>
         <?php } ?>
         </div>
-        
+
         <div style="text-align: center; margin-top: 20px;">
             <a class="btn-create" href="/../lab04/public/post/create.php">Create new post</a>
             <br>

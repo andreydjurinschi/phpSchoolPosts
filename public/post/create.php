@@ -1,53 +1,77 @@
-<?php 
-    require_once __DIR__ . "/../../src/handlers/postHandler.php";
-    require_once __DIR__ . "/../../src/controllers/postController.php";
-    require_once __DIR__ . "/../../src/controllers/categoryController.php";
-    use controllers\PostController;
-    use controllers\CategoryController;
-    $postController = new PostController();
-    $categoryController = new CategoryController();
-    $categories = $categoryController->getAllCategories();
+<?php
+require_once __DIR__ . "/../../src/handlers/postHandler.php";
+require_once __DIR__ . "/../../src/controllers/postController.php";
+require_once __DIR__ . "/../../src/controllers/categoryController.php";
+require_once __DIR__ . "/../../includes/header.php";
 
-    ?>
+use controllers\PostController;
+use controllers\CategoryController;
+
+$postController = new PostController();
+$categoryController = new CategoryController();
+$categories = $categoryController->getAllCategories();
+?>
 
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create post</title>
+    <title>Create Post</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; gap: 20px;">
-    <div style="text-align: center;">
-        <h1>Post creating</h1>
-        <h2>Input all post data below</h2>
+<div class="create-container">
+    <h2 style="font-size: 30px">Create a New Post</h2>
+    <h2>Enter the post details below</h2>
+    <form method="POST">
+        <input type="hidden" name="action" value="createPost">
+        <div class="row">
+            <div class="col-25">
+                <label for="title">Title</label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="title" name="title" placeholder="Enter the title..." >
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="content">Content</label>
+            </div>
+            <div class="col-75">
+                <textarea id="content" name="content" placeholder="Enter the content..." style="height:200px" ></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="cat_id">Category</label>
+            </div>
+            <div class="col-75">
+                <select id="cat_id" name="cat_id" >
+                    <option value="">--Select a category--</option>
+                    <?php foreach($categories as $category): ?>
+                        <option value="<?= htmlspecialchars($category['cat_id']) ?>"><?= htmlspecialchars($category['cat_name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <input type="submit" value="Create Post">
+        </div>
+    </form>
+    <div class="row">
+        <a href="/../lab04/public/post/index.php" class="btn-go-back">Back to Posts</a>
     </div>
-    <div>
-        <form method="POST" style="display: flex; flex-direction: column; max-width: 400px; gap: 10px; width: 100%;">
-            <input type="hidden" name="action" value="createPost">
-            <input type="text" name="title" placeholder="Title"  style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
-            <textarea name="content" rows="10" placeholder="Content"  style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; resize: vertical;"></textarea>
-            <select name="cat_id" id="">
-                <option value="">--select category gor this post--</option>
-                <?php foreach($categories as $category) { ?> 
-                    <option value="<?= $category['cat_id'] ?>"><?= $category['cat_name'] ?></option>
-                <?php } ?>
-            </select>
-            <button type="submit" style="padding: 10px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Create post</button>
-            <a type="submit" href="/../lab04/public/post/index.php"  style="padding: 10px; font-size: 16px; background-color:rgb(255, 51, 0); color: white; border: none; border-radius: 5px; cursor: pointer;">Back to posts</a>
-            <?php if (!empty($message)): ?>
-                <p style="color: red; font-size: 16px"><?php
-                    foreach ($message as $key => $value)
-                    {
-                        echo $key . ": " . $value . "<br>";
-                    }
-                    ?></p>
-            <?php endif; ?>
-        </form>
-
-    </div>
+    <?php if (!empty($message)): ?>
+        <div class="row">
+            <p style="color: red;">
+                <?php foreach ($message as $key => $value): ?>
+                    <?= htmlspecialchars($key) ?>: <?= htmlspecialchars($value) ?><br>
+                <?php endforeach; ?>
+            </p>
+        </div>
+    <?php endif; ?>
 </div>
 </body>
 </html>

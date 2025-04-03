@@ -1,11 +1,9 @@
 <?php
     require_once __DIR__ . "/../src/controllers/PostController.php";
     require_once __DIR__ . "/../src/controllers/CategoryController.php";
-
-use controllers\CategoryController;
-use controllers\PostController;
-
-
+    require_once __DIR__ . "/../includes/header.php";
+    use controllers\CategoryController;
+    use controllers\PostController;
     $postController = new PostController();
     $posts = $postController->getPosts();
     $categoryController = new CategoryController();
@@ -19,19 +17,15 @@ use controllers\PostController;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Students Post Website</title>
     <link rel="stylesheet" href="assets/css/style.css">
-
 </head>
 <body>
-    <header>
-        <h1>Welcome to Students Post Website</h1>
-    </header>
+
     <div class="container">
         <h2>About Us</h2>
         <p>Students Post Website is a platform where students can share their thoughts, ideas, and experiences.
         Our mission is to create a community where students can connect, learn, and grow together.</p>
         <p>Whether you're looking to share your latest project, seek advice, or simply connect with like-minded individuals,
         this is the place for you. Join us and be part of a vibrant student community!</p>
-        <a href="/../lab04/public/post/index.php">View posts</a>
     </div>
     <div class="container">
         <h2>Latest Posts</h2>

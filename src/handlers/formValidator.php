@@ -13,9 +13,10 @@
             return strlen($data) >= $minLength && strlen($data) <= $maxLength;
         }
 
-        public function alertJS(){
-
+        public function sanitizeData($data){
+            return htmlspecialchars($data);
         }
+
 
     }
 ?>

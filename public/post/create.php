@@ -1,6 +1,14 @@
 <?php 
     require_once __DIR__ . "/../../src/handlers/postHandler.php";
-?>
+    require_once __DIR__ . "/../../src/controllers/postController.php";
+    require_once __DIR__ . "/../../src/controllers/categoryController.php";
+    use controllers\PostController;
+    use controllers\CategoryController;
+    $postController = new PostController();
+    $categoryController = new CategoryController();
+    $categories = $categoryController->getAllCategories();
+
+    ?>
 
 
 <!DOCTYPE html>
@@ -18,9 +26,9 @@
     </div>
     <div>
         <form method="POST" style="display: flex; flex-direction: column; max-width: 400px; gap: 10px; width: 100%;">
-            <input type="hidden" name="action" value="createPost">  
-            <input type="text" name="title" placeholder="Title" required style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
-            <textarea name="content" rows="10" placeholder="Content" required style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; resize: vertical;"></textarea>
+            <input type="hidden" name="action" value="createPost">
+            <input type="text" name="title" placeholder="Title"  style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
+            <textarea name="content" rows="10" placeholder="Content"  style="padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; resize: vertical;"></textarea>
             <select name="cat_id" id="">
                 <option value="">--select category gor this post--</option>
                 <?php foreach($categories as $category) { ?> 
@@ -30,7 +38,12 @@
             <button type="submit" style="padding: 10px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Create post</button>
             <a type="submit" href="/../lab04/public/post/index.php"  style="padding: 10px; font-size: 16px; background-color:rgb(255, 51, 0); color: white; border: none; border-radius: 5px; cursor: pointer;">Back to posts</a>
             <?php if (!empty($message)): ?>
-                <p style="color: red; font-size: 16px"><?= $message ?></p>
+                <p style="color: red; font-size: 16px"><?php
+                    foreach ($message as $key => $value)
+                    {
+                        echo $key . ": " . $value . "<br>";
+                    }
+                    ?></p>
             <?php endif; ?>
         </form>
 

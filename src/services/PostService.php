@@ -27,10 +27,11 @@ class PostService
     {
         return $this->postRepository->getAllPosts();
     }
+
     /**
      * реализует метод получения поста по Id из репощитория
      *
-     * @param $id
+     * @param int $id
      *
      * @return array
      */
@@ -43,20 +44,25 @@ class PostService
     /***
      * реализует метод создания поста
      *
-     * @param int $cat_id
+     * @param int|null $cat_id
      * @param string $title
      * @param string $content
-     * @return array|string
-     *
+     * @return array
      */
-    public function createPost(int $cat_id, string $title, string $content): array|string{
+    public function createPost(?int $cat_id = null, string $title, string $content): array{
+
+       $title = $this->validator->sanitizeData($title);
+       $content = $this->validator->sanitizeData($content);
+
         if(!$this->validator->requiredField($title) || !$this->validator->requiredField($content)){
-            return "All fields are required";
+            return ["Empty error" => "Title and Content can't be empty"];
         }
+
         if(!$this ->validator->validateLength($title, 3, 100) || !$this->validator->validateLength($content, 10, 500)){
-            return "Title must be between 5 and 100 characters and content must be between 10 and 500 characters";
+            return ["Length error" => "Title must be between 5 and 100 characters and content must be between 10 and 500 characters"];
         }
-        return ["success" => $this->postRepository->createPost($cat_id, $title, $content)];
+        $this->postRepository->createPost($cat_id, $title, $content);
+        return ["success" => "Post created"];
     }
 
 

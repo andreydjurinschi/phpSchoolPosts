@@ -1,7 +1,7 @@
 <?php 
 
 
-namespace src;
+namespace controllers;
 
 require_once __DIR__ . "/../services/PostService.php";
 use services\PostService;
@@ -10,7 +10,6 @@ use services\PostService;
 
 class PostController{
     private $postService;
-    private $message;
 
     /**
      * конструктор, внедряющий зависимость сервиса
@@ -39,19 +38,20 @@ class PostController{
 
     /***
      * создание поста
-     * @return array|string
+     * @return array
      */
     public function createPost(){
-        $cat_id = $_POST['cat_id'] ?? 0;
+        $cat_id = isset($_POST['cat_id']) && $_POST['cat_id'] !== '' ? (int) $_POST['cat_id'] : null;
         $title = $_POST['title'] ?? '';
         $content = $_POST['content'] ?? '';
         $createdPost = $this->postService->createPost($cat_id, $title, $content);
-        if(is_array($createdPost)){
-            $message = ["message" => "Post created"];
-        } else {
-            $message = ["error" => $createdPost];
-        }
-        return $createdPost;
+        return [
+            key($createdPost) => $createdPost[key($createdPost)],
+        ];
+    }
+
+    public function getCategoryNameById($categoryId){
+
     }
 }
 

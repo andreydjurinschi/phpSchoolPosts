@@ -1,7 +1,10 @@
 <?php  
     require_once __DIR__ . "/../../src/controllers/PostController.php";
-    use src\PostController;
+    require_once __DIR__ . "/../../src/controllers/CategoryController.php";
+    use controllers\PostController;
+    use controllers\CategoryController;
     $postController = new PostController();
+    $categoryController = new CategoryController();
     $posts = $postController->getPosts();
 ?>
 
@@ -23,7 +26,15 @@
                 <h2> <?= $post['title'] ?></h2>
                 <p> <strong>Content: </strong><?= $post['content'] ?></p>
                 <p><strong>Date:</strong> <?= $post['created_at'] ?></p>
-                <!--<p><strong>Category:</strong> <?php /*$name = $postController->getCategoryNameById($post['cat_id']); echo $name*/?></p>-->
+                <p><strong>Category:</strong>
+                    <?php if ($post['cat_id'] === null)
+                    {
+                        echo "No Category";
+                    }else{
+                        $name = $categoryController->getCategory($post['cat_id']);
+                        echo $name;
+                    }
+                    ?></p>
         </div>
         <?php } ?>
         </div>
@@ -32,7 +43,7 @@
             <a class="btn-create" href="/../lab04/public/post/create.php">Create new post</a>
             <br>
             <br>
-            <a class="btn-go-back" href="/../lab04/public">Back to principal page</a>
+            <a class="btn-go-back" href="/../lab04/public/index.php">Back to principal page</a>
         </div>
 </body>
 </html>

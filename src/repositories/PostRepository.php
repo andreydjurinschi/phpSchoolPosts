@@ -37,15 +37,13 @@
 
         /**
          * Метод выполняет SQL-запрос для вставки нового поста в таблицу "posts".
-         * 
-         * @param int $cat_id Идентификатор категории поста.
+         *
+         * @param int|null $cat_id Идентификатор категории поста.
          * @param string $title Заголовок поста.
          * @param string $content Содержимое поста.
-         * @param DateTime $created_at Дата и время создания поста.
-         * 
          * @return bool Возвращает true, если пост успешно создан, иначе false.
          */
-        public function createPost(int $cat_id, string $title, string $content) : bool{ 
+        public function createPost(?int $cat_id = null, string $title, string $content) : bool{
             $query = "INSERT INTO posts (cat_id, title, content, created_at) VALUES (?, ?, ?, ?)";
             $statement = $this->connection->prepare($query); 
             $created_at = (new DateTime())-> format('Y-m-d H:i:s');
@@ -65,8 +63,7 @@
             $statement = $this->connection->prepare($query);
             $statement->bind_param("i", $postId);
             $statement->execute();
-            $result = $statement->get_result();
-            return $result->fetch_assoc();
+            return $statement->get_result()->fetch_assoc();
         }
 
 }

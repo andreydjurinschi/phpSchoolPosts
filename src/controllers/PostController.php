@@ -4,18 +4,22 @@
 namespace controllers;
 
 require_once __DIR__ . "/../services/PostService.php";
+require_once __DIR__ . "/../paginator/Paginator.php";
 use services\PostService;
+use paginator\Paginator;
 
 
 
 class PostController{
     private $postService;
+    private $paginator;
 
     /**
      * конструктор, внедряющий зависимость сервиса
      */
     public function __construct(){
         $this->postService = new PostService();
+        $this->paginator = new Paginator();
     }
 
 
@@ -24,8 +28,14 @@ class PostController{
      * @return array
      */
     public function getPosts(){
-        return $this->postService->getAllPosts();
+        $paginatedPosts = $this->paginator->createPagination();
+        return $paginatedPosts['posts'];
     }
+    public function getPaginationData()
+    {
+        return $this->paginator->createPagination();
+    }
+
 
     /***
      * получения поста по id
